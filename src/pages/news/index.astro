@@ -1,0 +1,14 @@
+---
+import LinkCard from "../../components/LinkCard.astro";
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="News | Pjax Demo" page="news">
+  <main class="l-main" data-barba="wrapper">
+    <div data-barba="container" data-barba-namespace="news">
+      <LinkCard text="News" url="/" />
+    </div>
+  </main>
+</Layout>
+
+<style lang="scss"></style>

@@ -1,0 +1,113 @@
+---
+---
+
+<div class="l-bg">
+  <div class="l-transition">
+    <div class="l-transition__wrapper">
+      <div class="l-transition__line">
+        {
+          Array.from({ length: 25 }, (_, index) => (
+            <div class="l-transition__block" />
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</div>
+
+<style lang="scss" is:global>
+  .l-bg {
+    position: relative;
+  }
+  .l-transition {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 50;
+    pointer-events: none;
+    &:nth-of-type(1) {
+      opacity: 0;
+      transition: opacity 0s 0.4s;
+      .pjax-leave & {
+        opacity: 1;
+        transition: opacity 0s 0.3s;
+      }
+    }
+    &__wrapper {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      // rotate: 45deg;
+      translate: -50% -50%;
+    }
+    &__line {
+      display: flex;
+      @for $i from 1 through 25 {
+        @for $j from 1 through 25 {
+          $delay: (random(9) - 1) * 0.03;
+          &:nth-of-type(20n + #{$i}) {
+            .l-transition__block:nth-of-type(#{$j}) {
+              .l-transition:nth-of-type(2) & {
+                .pjax-leave & {
+                  transition-delay: #{$delay}s;
+                }
+              }
+              .l-transition:nth-of-type(1) & {
+                transition-delay: #{$delay + 0.1}s;
+                .pjax-leave & {
+                  transition-delay: 0s;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    &__block {
+      position: relative;
+      width: 4vw;
+      aspect-ratio: 1;
+      background-color: var(--color-white);
+      // border: 1px solid var(--color-white);
+      .l-transition:nth-of-type(1) & {
+        opacity: 0;
+        transition: opacity 0.1s;
+        background-color: var(--color-blue);
+        .pjax-leave & {
+          opacity: 1;
+          transition: 0s 35s;
+        }
+      }
+      .l-transition:nth-of-type(2) & {
+        opacity: 0;
+        transition: 0s 0s;
+        .pjax-leave & {
+          opacity: 1;
+          transition: 0.15s;
+          background-color: var(--color-blue);
+        }
+      }
+    }
+  }
+</style>
+
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    const container = document.querySelector(".l-transition");
+    const wrapper = document.querySelector(".l-transition__wrapper");
+    const line = document.querySelector(".l-transition__line");
+    const block = document.querySelector(".l-transition__block");
+    const blockHeight = block.getBoundingClientRect().height;
+    console.log("DOMContentLoaded", blockHeight);
+
+    let totalHeight = 0;
+    while (totalHeight < innerHeight * 2) {
+      totalHeight += blockHeight;
+      wrapper.appendChild(line.cloneNode(true));
+    }
+
+    container.insertAdjacentHTML("afterend", container.outerHTML);
+  });
+</script>

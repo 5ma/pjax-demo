@@ -1,0 +1,44 @@
+---
+import '../styles/reset.css';
+import '../components/LocalScripts.astro';
+import Header from './Header.astro';
+import Transition from './Transition.astro';
+
+export interface Props {
+	title: string;
+	page: string;
+}
+
+const { title, page } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description">
+		<meta name="viewport" content="width=device-width" />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600&family=Noto+Sans+JP:wght@400;500&display=swap" rel="stylesheet">
+		<title>{title}</title>
+	</head>
+	<body>
+		<Header />
+		<div class="l-container" data-page={page}>
+			<slot />
+		</div>
+		<Transition />
+	</body>
+</html>
+
+<style lang="scss" is:global>
+	:root {
+		--color-blue: #004BC8;
+		--color-black: #000000;
+		--color-white: #ffffff;
+	}
+	body {
+		font-family: 'Jost', 'Noto Sans JP', sans-serif;
+	}
+</style>
